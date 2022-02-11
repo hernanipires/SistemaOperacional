@@ -1,0 +1,15 @@
+#Verbose boot.
+
+Open Firmware
+
+Power8 -
+boot -s verbose
+
+
+Power9
+BOOT_FROM_SEQ -s verbose
+
+
+/etc/rc.d/rc2.d/K96init.cssd[477]: /oracle10g/ora10105/bin/crsctl
+
+/usr/lpp/EMPsysedge/bin/sysedge

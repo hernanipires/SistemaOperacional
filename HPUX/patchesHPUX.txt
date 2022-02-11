@@ -1,0 +1,263 @@
+1) Crear filesystem
+
+/usr/sbin/lvcreate   -l	64 -p w -s	y -A y	-n patchlv vg00 && /usr/sbin/lvchange  -t 0 -a y	/dev/vg00/patchlv
+
+/sbin/mkdir -p -m u=rwx,g=rx,o=rx /tmp/patches && /usr/sbin/mkfs -F vxfs /dev/vg00/patchlv
+
+/usr/sbin/mount -F vxfs -e  /dev/vg00/patchlv /tmp/patches && /usr/bin/cp -p /etc/fstab /etc/fstab.old && /usr/bin/echo "/dev/vg00/patchlv /tmp/patches	vxfs defaults 0	2"  >> /etc/fstab
+
+2) Generacion del depot
+
+gunzip hpux_11.31_05110222.tgz
+
+tar xf hpux_11.31_05110222.tar
+
+chmod 755 /tmp/patches/create_depot_hpux.11.31
+
+./create_depot_hpux.11.31
+
+rm -f *.text *.depot
+
+
+***Tareas en ventana
+
+
+3) Ejecutar instalacion de los parches
+
+swinstall
+
+#Local
+/tmp/patches/depot
+
+/var/adm/sw/swagent.log
+
+
+┌ ===             SD Install - Software Selection ( SERVER ) (1)               ┐
+│File View Options Actions                                                Help │
+│                       Press CTRL-K for keyboard help.                        │
+│Source:                                                                       │
+│Target:                                                                       │
+│                                                                              │
+│All┌                       Specify Source ( SERVER )                      ┐   │
+│───│                                                                      │───│
+│Top│ Specify the source type, then host name, then path on that host.     │   │
+│───│                                                                      │───│
+│   │ Source Depot Type:  [ Local Directory          ->] [ Find Local CD ] │   │
+│┌──│                                                                      │─┐ │
+││  │ [  Source Host Name... ] SERVER                                      │ ^ │
+││  │                                                                      │   │
+││  │ [ Source Depot Path... ] /tmp/patches/depot                          │   │
+││  │──────────────────────────────────────────────────────────────────────│   │
+││  │ [   OK   ]                   [ Cancel ]                   [  Help  ] │   │
+││  └──────────────────────────────────────────────────────────────────────┘   │
+││                                                                             │
+││                                                                             │
+││                                                                           v │
+│└───────────────────────────────────────────────────────────────────────────┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+┌ ===             SD Install - Software Selection ( SERVER ) (1)               ┐
+│File View Options Actions                                                Help │
+│                       Press CTRL-K for keyboard help.                        │
+│Source: SERVER:/tmp/patches/depot                                             │
+│Target:  SERVER:/                                                             │
+│                                                                              │
+│Only software compatible with the target is available for selection.          │
+│──────────────────────────────────────────────────────────────────────────────│
+│Top (Bundles and Products)                                     0 of 1 selected│
+│──────────────────────────────────────────────────────────────────────────────│
+│  Marked?    Name                  Revision        Information    Size(Kb)    │
+│┌───────────────────────────────────────────────────────────────────────────┐ │
+││            BUNDLE           ->   B.2021.05.14    Patch Bundle     302212  ^ │
+││                                                                             │
+││                                                                             │
+││                                                                             │
+││                                                                             │
+││                                                                             │
+││                                                                             │
+││                                                                             │
+││                                                                           v │
+│└<                                                                         >┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+===             SD Install - Software Selection ( SERVER ) (1)                 ┐
+│File View Options Actions                                                Help │
+│                  │ Open Item                       │.                        │
+│Source:  SERVER:/t│ ─────────────────────────────── │                         │
+│Target:   SERVER:/│ Match What Target Has           │                         │
+│                  │ Add Software Group...           │                         │
+│Only software comp│ Save Software Group...          │ for selection.          │
+│──────────────────│ Manage Patch Selection...       │─────────────────────────│
+│Top (Bundles and P│ ─────────────────────────────── │          1 of 1 selected│
+│──────────────────│ Change Source...                │─────────────────────────│
+│  Marked?    Name │ Add New Codeword                │formation    Size(Kb)    │
+│┌─────────────────│ ─────────────────────────────── │───────────────────────┐ │
+││            BUNDL│ Change Target...                │tch Bundle     302212  ^ │
+││                 │ ─────────────────────────────── │                         │
+││                 │ Install...                      │                         │
+││                 │ =============================== │                         │
+││                 │ Show Description Of Software... │                         │
+││                 │ Mark For Install  m             │                         │
+││                 │ Unmark For Install  u           │                         │
+││                 │ Change Product Location...      │                         │
+││                 └─────────────────────────────────┘                       v │
+│└<                                                                         >┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+===             SD Install - Software Selection ( SERVER ) (1)                 ┐
+│File View Options Actions                                                Help │
+│                       Press CTRL-K for keyboard help.                        │
+│Source:  SERVER:/tmp/patches/depot                                            │
+│Target:   SERVER:/                                                            │
+│     ┌ ===             Install Analysis ( SERVER ) (2)                 ┐      │
+│Only │                                                                 │      │
+│─────│ After Analysis has completed, press 'OK' to proceed, or 'CANCEL'│──────│
+│Top (│ to return to prior selection screen.                            │lected│
+│─────│                                                                 │──────│
+│  Mar│                                                                 │b)    │
+│┌────│ Target             :  SERVER:/                                  │────┐ │
+││ Par│ Status             :  Ready                                     │12  ^ │
+││    │ Products Scheduled :  40 of 63                                  │      │
+││    │                                                                 │      │
+││    │ [ Products... ] [ Logfile... ] [ Disk Space... ] [ Re-analyze ] │      │
+││    │─────────────────────────────────────────────────────────────────│      │
+││    │ [   OK   ]                [ Cancel ]                [  Help  ]  │      │
+││    └─────────────────────────────────────────────────────────────────┘      │
+││                                                                             │
+││                                                                           v │
+│└<                                                                         >┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌ ===             SD Install - Software Selection ( SERVER ) (1)               ┐
+│File View Options Actions                                                Help │
+│                       Press CTRL-K for keyboard help.                        │
+│Source: SERVER:/tmp/patches/depot                                             │
+│Target┌ ===             Install Window ( SERVER ) (3)                 ┐       │
+│      │                                                               │       │
+│Only s│ Press 'Products' and/or 'Logfile' for more target information.│       │
+│──────│                                                               │───────│
+│Top (B│ Target             :  SERVER:/                                │elected│
+│──────│ Status             :  Loading                                 │───────│
+│  Mark│ Percent Complete   :  0%                                      │Kb)    │
+│┌─────│ Kbytes Installed   :  0 of 211634                             │─────┐ │
+││ Part│ Time Left (minutes):  ??                                      │212  ^ │
+││     │ Loading Software   :  PHKL_44068,r=1.0                        │       │
+││     │                                                               │       │
+││     │ [ Products... ] [ Logfile... ]                                │       │
+││     │───────────────────────────────────────────────────────────────│       │
+││     │ [  Done  ]                                         [  Help  ] │       │
+││     └───────────────────────────────────────────────────────────────┘       │
+││                                                                             │
+││                                                                           v │
+│└<                                                                         >┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+===             SD Install - Software Selection ( SERVER ) (1)                 ┐
+│File View Options Actions                                                Help │
+│                       Press CTRL-K for keyboard help.                        │
+│Source: SERVER:/tmp/patches/depot                                             │
+│Target┌ ===             Install Window ( SERVER ) (3)                 ┐       │
+│      │                                                               │       │
+│Only s│ Press 'Products' and/or 'Logfile' for more target information.│       │
+│──────│                                                               │───────│
+│Top (B│ Target             :  aquiles:/                               │elected│
+│──────│ Status             :  Ready                                   │───────│
+│  Mark│ Percent Complete   :  100%                                    │Kb)    │
+│┌─────│ Kbytes Installed   :  211634 of 211634                        │─────┐ │
+││ Part│ Time Left (minutes):  0                                       │212  ^ │
+││     │ Loading Software   :                                          │       │
+││     │                                                               │       │
+││     │ [ Products... ] [ Logfile... ]                                │       │
+││     │───────────────────────────────────────────────────────────────│       │
+││     │ [  Done  ]                                         [  Help  ] │       │
+││     └───────────────────────────────────────────────────────────────┘       │
+││                                                                             │
+││                                                                           v │
+│└<                                                                         >┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌ ===             SD Install - Software Selection ( SERVER ) (1)               ┐
+│File View Options Actions                                                Help │
+│                       Press CTRL-K for keyboard help.                        │
+│Source: SERVER:/tmp/patches/depot                                             │
+│Target┌ ===             Install Window ( SERVER ) (3)                 ┐       │
+│      │                                                               │       │
+│Only s│ Press 'Products' and/or 'Logfile' for more target information.│       │
+│──────│                                                               │───────│
+│Top┌                            Note ( SERVER )                           ┐ted│
+│───│                                                                      │───│
+│  M│ Your local system will be rebooted when you press "OK" in this       │   │
+│┌──│ window.  Check the logfile "/var/adm/sw/swagent.log" after reboot to │─┐ │
+││ P│ see if there were any software configuration problems.               │ ^ │
+││  │──────────────────────────────────────────────────────────────────────│   │
+││  │                              [[ OK    ]]                             │   │
+││  └──────────────────────────────────────────────────────────────────────┘   │
+││     │───────────────────────────────────────────────────────────────│       │
+││     │ [  Done  ]                                         [  Help  ] │       │
+││     └───────────────────────────────────────────────────────────────┘       │
+││                                                                             │
+││                                                                           v │
+│└<                                                                         >┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+        *** FINAL System shutdown message (aquiles) ***
+
+System going down IMMEDIATELY
+
+
+
+NOTE:	 The command "/sbin/mount" exited with a status code of "1".
+	 The following is the output from the command:
+	 mount: /dev/vgmrdd/lvmrdd: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd11: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd10: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd09: No such file or directory
+         mount: /dev/vgmrdd/lvmrdd08: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd07: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd06: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd05: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd04: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd03: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd02: No such file or directory
+	 mount: /dev/vgmrdd/lvmrdd01: No such file or directory
+	 UX:vxfs mount: ERROR: V-3-21264: /dev/vgcims01/lvcims0101 is already mounted, /cims0101 is busy,
+                        allowable number of mount points exceeded
+NOTE:	 End of command output. Non-zero exit status may or may not be
+	 a failure. Look for additional messages.
+ERROR:	 Entry for filesystem "/dev/vgcims01/lvcims0101" in
+	 "/etc/fstab" could not be mounted.  If you do not want this
+	 file system mounted, comment it out of the "/etc/fstab" file,
+	 or set the "mount_all_filesystems" option to "false".
+ERROR:	 Cannot continue the Analysis Phase until the previous errors
+	 are corrected.
+
+   /dev/vgcimsdata/lvcims /cims   vxfs defaults 0 2
+   /dev/vgcimsdata/lvcims0102 /cims0102   vxfs defaults 0 2
+   /dev/vgcimsdata/lvcims0103 /cims0103   vxfs defaults 0 2
+   /dev/vgcimsdata/lvcims0104 /cims0104   vxfs defaults 0 2
+   /dev/vgcimsdata/lvcims0110 /cims0110   vxfs defaults 0 2
+   /dev/vgcimsdata/lvcims0111 /cims0111   vxfs defaults 0 2
+   /dev/vgcimsdata/lvcims0101 /cims0101   vxfs defaults 0 2
+
+
+mount: ls -la /dev/vgmrdd/lvmrdd: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd11: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd10: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd09: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd08: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd07: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd06: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd05: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd04: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd03: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd02: No such file or directory
+mount: ls -la /dev/vgmrdd/lvmrdd01: No such file or directory

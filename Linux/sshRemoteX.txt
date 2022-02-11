@@ -1,0 +1,11 @@
+Versao de Sistema Operacional
+
+
+Repositorios
+
+
+Pacotes
+xorg-x11-xauth
+
+
+Configuracoes

@@ -1,0 +1,7 @@
+#Listar Servers Fisicos
+
+lssyscfg -r sys -F name
+
+#Ativar LPAR
+
+chsysstate -m <Server>  -r lpar -n <lpar> -f <priofile> -o on
